@@ -43,11 +43,41 @@ Everyone needs a BrainRidge Claude account (a member of the firm's Claude worksp
 
 **2. Offline copy.** Open `dist/QE-Health-Check.html` in a browser. All scoring, roadmap and export features work. There is no shared library: save work with Export → Assessment file (.json) and reopen it with Import .json.
 
+The live tool is already hosted by Anthropic on claude.ai, so BrainRidge doesn't run a server for it. This repository is the source code; running it locally gives you the offline copy.
+
+## Running locally (IntelliJ or any browser)
+
+No build, install or server is needed.
+
+1. In IntelliJ, open the `QA-Assessment` folder as a project (File → Open).
+2. Open `dist/QE-Health-Check.html`.
+3. Hover over the editor and click one of the browser icons in the top-right corner, or right-click the file and choose **Open In → Browser**. IntelliJ serves it from its built-in web server, for example `http://localhost:63342/QA-Assessment/dist/QE-Health-Check.html`.
+
+Outside IntelliJ, double-click `dist/QE-Health-Check.html` to open it in your default browser.
+
+### Live tool vs local copy
+
+| | Live tool (claude.ai link) | Local copy (IntelliJ / browser) |
+|---|---|---|
+| Who can use it | Anyone the owner has shared it with | Whoever has the file |
+| Sign-in | BrainRidge Claude account | None |
+| Saving | Shared library with per-lead privacy and a practice-lead view | Current draft only, kept in that browser; export to .json to keep work |
+| Firm category library | Shared | Not available |
+| Assessment, scoring, roadmap, exports | Yes | Yes |
+
+### Which to use when
+
+- **Demos:** either. The local copy opens with a fictional example client already filled in, needs no sign-in and leaves no saved records behind. Use the live link to show saving and the practice-lead view.
+- **Training:** the local copy, so practice runs don't fill the real library. Move QA leads to the live link once they assess real clients.
+- **Real client assessments:** the live link, so work is saved and visible to practice leads.
+
 ## Changing the tool
 
 1. Edit `src/qe-health-check.html`. Framework content (categories, questions, AI activities, accelerators, tools, readiness questions) is in the `FRAMEWORK CONTENT` section at the top of the script.
-2. Run `node scripts/generate-framework-doc.js` and `bash scripts/build-standalone.sh`.
-3. Republish the artifact. Ask Claude to update the artifact using its claude.ai link and this file; the link and saved data stay the same.
+2. Run `bash scripts/build-standalone.sh`, then refresh `dist/QE-Health-Check.html` in the browser to check the change.
+3. If you changed questions or categories, run `node scripts/generate-framework-doc.js` to refresh `docs/FRAMEWORK.md` (needs Node.js).
+4. Commit and push.
+5. Republish the artifact. Local edits don't change the live tool: ask Claude to update the artifact using its claude.ai link and the updated `src/qe-health-check.html`. The link and saved data stay the same.
 
 Keep question and category `id` values stable. Saved assessments store scores by id, so renaming an id orphans existing scores.
 
